@@ -1,0 +1,14 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "andrii romanenko",
+  "license": "MIT",
+  "dependencies": {
+    "ask-sdk-core": "^2.0.2",
+    "ask-sdk-model": "^1.0.2",
+    "cheerio": "^1.0.0-rc.2",
+    "request": "^2.85.0",
+    "rss-parser": "^3.1.2"
+  }
+}
