@@ -7,13 +7,22 @@ const request = require('request');
 //for scraping content from web pages
 const cheerio = require('cheerio');
 
-//all strings and liks tored in config file, you probably need to create one using config.sample.js file
-const config = require('./config.local');
+//all strings and liks are stored in config file, you probably need to create one using config.sample.js file
+var config = {};
+try {
+    config = require('./config.local');
+} catch (err) {
+    if (err.code !== 'MODULE_NOT_FOUND') {
+        throw err;
+    }
+    console.log("Config is not present. using backup config file with fake values!!!");
+    config = require('./config.sample');
+}
+
 
 /*
 Intent Handlers
 */
-
 const LaunchRequestHandler = {
     canHandle(handlerInput) {
         return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
@@ -161,10 +170,10 @@ const SessionEndedRequestHandler = {
 /*
 Error Handler
 */
-
 const ErrorHandler = {
     canHandle(handlerInput, error) {
-        return error.name.startsWith('AskSdk');
+        //will handle any exception thrown in handlers
+        return true;
     },
     handle(handlerInput, error) {
         console.log("in error handler");
@@ -213,13 +222,6 @@ Some other methods
 
 //get random item from array tom make some responses more natural
 function randomString(array) {
-    //check that the given item is not a string, otherwise simply return the string
-    var type = typeof array;
-    if (type == "string") {
-        log("the string literal in random phrase");
-        return array;
-    }
-
     var i = 0;
     if (array) { //array is not empty
         if (array.length) {
